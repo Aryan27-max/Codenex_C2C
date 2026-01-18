@@ -28,12 +28,7 @@ export default function Home() {
 
   const addEntry = () => {
     if (!name || !room || !floor) return;
-
-    setEntries([
-      ...entries,
-      { name, venue, floor: Number(floor), room }
-    ]);
-
+    setEntries([...entries, { name, venue, floor: Number(floor), room }]);
     setName('');
     setRoom('');
     setFloor('');
@@ -50,30 +45,29 @@ export default function Home() {
   );
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-[#050505] via-[#0b0b0b] to-[#020617] text-white px-6 flex flex-col items-center">
+    <main className="min-h-screen bg-gradient-to-br from-[#050505] via-[#0b0b0b] to-[#020617] text-white px-4 sm:px-6 flex flex-col items-center">
 
       {/* Logo */}
-      <div className="mt-12 mb-10">
-        <img src="/codenex-logo.webp" alt="CodeNex" className="w-29 mx-auto drop-shadow-lg" />
+      <div className="mt-10 sm:mt-12 mb-8 sm:mb-10">
+        <img src="/logo.webp" alt="CodeNex" className="w-15 sm:w-20 mx-auto" />
       </div>
 
-      {/* Main Card */}
-      <section className="w-full max-w-5xl bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl p-8">
-        <h1 className="text-2xl font-semibold mb-1">
+      {/* Card */}
+      <section className="w-full max-w-6xl bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl p-5 sm:p-8">
+        <h1 className="text-xl sm:text-2xl font-semibold mb-1">
           Class Coverage Tracker
         </h1>
-        <p className="text-zinc-400 mb-8">
+        <p className="text-zinc-400 mb-6 sm:mb-8 text-sm sm:text-base">
           Track completed rooms with contributor details
         </p>
 
         {/* Form */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
           <Field label="Name">
             <input
-              type="text"
-              placeholder="Volunteer name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              placeholder="Volunteer name"
               className="input"
             />
           </Field>
@@ -93,26 +87,25 @@ export default function Home() {
           <Field label="Floor">
             <input
               type="number"
-              placeholder="e.g. 2"
               value={floor}
               onChange={(e) => setFloor(e.target.value)}
+              placeholder="e.g. 2"
               className="input"
             />
           </Field>
 
           <Field label="Room No.">
             <input
-              type="text"
-              placeholder="1 – 9"
               value={room}
               onChange={(e) => setRoom(e.target.value)}
+              placeholder="1 – 9"
               className="input"
             />
           </Field>
 
           <button
             onClick={addEntry}
-            className="mt-7 h-[44px] rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-semibold hover:scale-[1.02] active:scale-[0.98] transition"
+            className="h-[44px] mt-2 sm:mt-6 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-semibold active:scale-95 transition"
           >
             Mark Completed
           </button>
@@ -120,27 +113,26 @@ export default function Home() {
       </section>
 
       {/* Search */}
-      <div className="w-full max-w-5xl mt-10">
+      <div className="w-full max-w-6xl mt-8">
         <input
-          type="text"
-          placeholder="Search by name, venue, floor or room…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full rounded-2xl bg-white/5 backdrop-blur border border-white/10 px-5 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400/40"
+          placeholder="Search by name, venue, floor or room…"
+          className="w-full rounded-2xl bg-white/5 border border-white/10 px-4 py-3 text-sm"
         />
       </div>
 
       {/* Table */}
-      <section className="w-full max-w-5xl mt-6 overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl">
-        <table className="w-full text-sm">
-          <thead className="bg-white/5 text-zinc-400">
+      <section className="w-full max-w-6xl mt-6 overflow-x-auto rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl">
+        <table className="min-w-[800px] w-full text-sm">
+          <thead className="text-zinc-400 bg-white/5">
             <tr>
-              <th className="px-6 py-4 text-left">Name</th>
-              <th className="px-6 py-4 text-left">Venue</th>
-              <th className="px-6 py-4 text-left">Floor</th>
-              <th className="px-6 py-4 text-left">Room</th>
-              <th className="px-6 py-4 text-left">Status</th>
-              <th className="px-6 py-4 text-right">Action</th>
+              <th className="px-5 py-4 text-left">Name</th>
+              <th className="px-5 py-4 text-left">Venue</th>
+              <th className="px-5 py-4 text-left">Floor</th>
+              <th className="px-5 py-4 text-left">Room</th>
+              <th className="px-5 py-4 text-left">Status</th>
+              <th className="px-5 py-4 text-right">Action</th>
             </tr>
           </thead>
 
@@ -154,23 +146,20 @@ export default function Home() {
             )}
 
             {filtered.map((e, i) => (
-              <tr
-                key={i}
-                className="border-t border-white/10 hover:bg-white/5 transition group"
-              >
-                <td className="px-6 py-4">{e.name}</td>
-                <td className="px-6 py-4">{e.venue}</td>
-                <td className="px-6 py-4">{e.floor}</td>
-                <td className="px-6 py-4">{e.room}</td>
-                <td className="px-6 py-4">
-                  <span className="inline-flex px-3 py-1 rounded-full text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <tr key={i} className="border-t border-white/10">
+                <td className="px-5 py-4">{e.name}</td>
+                <td className="px-5 py-4">{e.venue}</td>
+                <td className="px-5 py-4">{e.floor}</td>
+                <td className="px-5 py-4">{e.room}</td>
+                <td className="px-5 py-4">
+                  <span className="px-3 py-1 text-xs rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                     Completed
                   </span>
                 </td>
-                <td className="px-6 py-4 text-right">
+                <td className="px-5 py-4 text-right">
                   <button
                     onClick={() => deleteEntry(i)}
-                    className="opacity-0 group-hover:opacity-100 text-red-400 hover:text-red-500 transition text-sm"
+                    className="text-red-400 hover:text-red-500 text-sm font-medium"
                   >
                     Delete
                   </button>
@@ -182,11 +171,18 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="mt-auto py-10 text-zinc-500 text-sm">
-        MADE WITH ❤️ by Aryan Gupta
+      <footer className="mt-auto py-8 text-zinc-500 text-sm">
+        MADE WITH ❤️ by{' '}
+        <a
+          href="https://github.com/Aryan27-max"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 underline hover:underline"
+        >
+          Aryan Gupta
+        </a>
       </footer>
 
-      {/* Styles */}
       <style jsx>{`
         .input {
           width: 100%;
@@ -196,9 +192,9 @@ export default function Home() {
           border: 1px solid rgba(255, 255, 255, 0.12);
           padding: 0 0.75rem;
           font-size: 0.875rem;
-          outline: none;
         }
         .input:focus {
+          outline: none;
           border-color: rgba(34, 211, 238, 0.6);
           box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.2);
         }
