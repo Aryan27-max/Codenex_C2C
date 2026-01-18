@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 interface Entry {
   name: string;
+  batch: number;
   venue: string;
   floor: number;
   room: string;
@@ -11,28 +12,40 @@ interface Entry {
 
 export default function Home() {
   const [name, setName] = useState('');
+  const [batch, setBatch] = useState<number | ''>('');
   const [venue, setVenue] = useState('UB');
-  const [floor, setFloor] = useState('');
+  const [floor, setFloor] = useState<number | ''>('');
   const [room, setRoom] = useState('');
   const [search, setSearch] = useState('');
   const [entries, setEntries] = useState<Entry[]>([]);
 
-  // Load from localStorage
+  /* Load from localStorage */
   useEffect(() => {
     const stored = localStorage.getItem('completedRooms');
     if (stored) setEntries(JSON.parse(stored));
   }, []);
 
-  // Save to localStorage
+  /* Save to localStorage */
   useEffect(() => {
     localStorage.setItem('completedRooms', JSON.stringify(entries));
   }, [entries]);
 
   const addEntry = () => {
-    if (!name || !floor || !room) return;
+    if (!name || !batch || !floor || !room) return;
 
-    setEntries([...entries, { name, venue, floor: Number(floor), room }]);
+    setEntries([
+      ...entries,
+      {
+        name,
+        batch: Number(batch),
+        venue,
+        floor: Number(floor),
+        room,
+      },
+    ]);
+
     setName('');
+    setBatch('');
     setFloor('');
     setRoom('');
   };
@@ -42,7 +55,7 @@ export default function Home() {
   };
 
   const filtered = entries.filter(e =>
-    `${e.name} ${e.venue} ${e.floor} ${e.room}`
+    `${e.name} batch ${e.batch} ${e.venue} ${e.floor} ${e.room}`
       .toLowerCase()
       .includes(search.toLowerCase())
   );
@@ -65,11 +78,11 @@ export default function Home() {
           Class Coverage Tracker
         </h1>
         <p className="text-zinc-400 mb-6 sm:mb-8 text-sm sm:text-base">
-          Track completed rooms with contributor details
+          Track completed rooms with contributor & batch details
         </p>
 
         {/* Form */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 sm:gap-6">
           <Field label="Name">
             <input
               value={name}
@@ -77,6 +90,18 @@ export default function Home() {
               placeholder="Volunteer name"
               className="input"
             />
+          </Field>
+
+          <Field label="Batch">
+            <select
+              value={batch}
+              onChange={(e) => setBatch(Number(e.target.value))}
+              className="input"
+            >
+              <option value="">Select</option>
+              <option value="1">Batch 1</option>
+              <option value="2">Batch 2</option>
+            </select>
           </Field>
 
           <Field label="Venue">
@@ -95,7 +120,7 @@ export default function Home() {
             <input
               type="number"
               value={floor}
-              onChange={(e) => setFloor(e.target.value)}
+              onChange={(e) => setFloor(Number(e.target.value))}
               placeholder="e.g. 2"
               className="input"
             />
@@ -124,17 +149,18 @@ export default function Home() {
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search by name, venue, floor or room…"
+          placeholder="Search by name, batch, venue, floor or room…"
           className="w-full rounded-2xl bg-white/5 border border-white/10 px-4 py-3 text-sm"
         />
       </div>
 
       {/* Table */}
       <section className="w-full max-w-6xl mt-6 overflow-x-auto rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl">
-        <table className="min-w-[800px] w-full text-sm">
+        <table className="min-w-[900px] w-full text-sm">
           <thead className="text-zinc-400 bg-white/5">
             <tr>
               <th className="px-5 py-4 text-left">Name</th>
+              <th className="px-5 py-4 text-left">Batch</th>
               <th className="px-5 py-4 text-left">Venue</th>
               <th className="px-5 py-4 text-left">Floor</th>
               <th className="px-5 py-4 text-left">Room</th>
@@ -146,7 +172,7 @@ export default function Home() {
           <tbody>
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-6 py-10 text-center text-zinc-500">
+                <td colSpan={7} className="px-6 py-10 text-center text-zinc-500">
                   No rooms completed yet
                 </td>
               </tr>
@@ -155,6 +181,7 @@ export default function Home() {
             {filtered.map((e, i) => (
               <tr key={i} className="border-t border-white/10">
                 <td className="px-5 py-4">{e.name}</td>
+                <td className="px-5 py-4">Batch {e.batch}</td>
                 <td className="px-5 py-4">{e.venue}</td>
                 <td className="px-5 py-4">{e.floor}</td>
                 <td className="px-5 py-4">{e.room}</td>
@@ -190,7 +217,7 @@ export default function Home() {
         </a>
       </footer>
 
-      {/* Styles – PAGE ONLY */}
+      {/* Page-only styles */}
       <style jsx global>{`
         .input {
           width: 100%;
@@ -209,7 +236,7 @@ export default function Home() {
           box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.2);
         }
 
-        /* 🔥 Dropdown option contrast fix */
+        /* Dropdown option contrast fix */
         select option {
           color: #111827;
           background-color: #ffffff;
