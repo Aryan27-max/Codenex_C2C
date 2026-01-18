@@ -148,7 +148,7 @@ export default function Home() {
             <input
               value={room}
               onChange={(e) => setRoom(e.target.value)}
-              placeholder="1 – 9"
+              placeholder="e.g. 1 – 9"
               className="input"
             />
           </Field>
