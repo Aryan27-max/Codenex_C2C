@@ -63,14 +63,18 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-[#050505] via-[#0b0b0b] to-[#020617] text-white px-4 sm:px-6 flex flex-col items-center">
 
-      {/* Logo */}
-      <div className="mt-10 sm:mt-12 mb-8 sm:mb-10">
-        <img
-          src="/logo.webp"
-          alt="CodeNex"
-          className="w-15 sm:w-15 mx-auto drop-shadow-lg"
-        />
+      {/* Logo + Text */}
+      <div className="mt-10 sm:mt-12 mb-8 sm:mb-10 flex items-center gap-4 sm:gap-5">
+          <img
+            src="/logo.webp"
+            alt="CodeNex Logo"
+            className="w-15 sm:w-15 drop-shadow-lg"
+          />
+          <span className="text-2xl sm:text-3xl font-semibold tracking-tight">
+            CodeNex
+          </span>
       </div>
+
 
       {/* Card */}
       <section className="w-full max-w-6xl bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl p-5 sm:p-8">
